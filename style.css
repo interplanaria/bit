@@ -1,0 +1,62 @@
+body, .sidebar {
+	color: rgba(0,0,0,0.7);
+	font-size: 14px;
+	line-height: 13px;
+}
+section.cover span {
+	color: gray;
+	font-weight: bold;
+}
+section.cover.has-mask .mask {
+	background: none !important;
+}
+section.cover {
+	color: white;
+	background: rgba(0,0,0,0.9) !important;
+}
+.cover-main p, .cover-main p a {
+	font-family: arial;
+	font-size: 14px !important;
+}
+.cover-main p a {
+	background: black;
+	min-width: 120px;
+	color: white !important;
+	padding: 0px 10px !important;
+	font-size: 11px !important;
+	border-radius: 2px !important;
+}
+.cover .anchor span {
+	color: white;
+}
+h1#bit {
+	color: rgba(0,0,0,0.8);
+	letter-spacing: -10px;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 50px !important;
+}
+h1 {
+	font-size: 50px !important;
+	font-weight: bold;
+	letter-spacing: -1px;
+	line-height: 50px;
+}
+img {
+	opacity: 0.8;
+	border: 1px solid silver;
+	border-radius: 4px;
+}
+strong {
+	color: black !important;
+}
+.markdown-section code, .markdown-section pre, .markdown-section pre>code {
+	background: #2a2a2a;
+	color: white;
+}
+.warning {
+	padding: 30px;
+	background: lavender;
+	display: block;
+	margin: 20px 0;
+line-height: 16px;
+}
