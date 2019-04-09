@@ -9,7 +9,7 @@
 <br><br>
 This is a pre-release proposal of the bit:// protocol specification.
 <br><br>
-Nothing is set in stone yet, the final spec will be decided after reasonable amount of feedback and discussion on the details. Please read through the document first, and then visit the GitHub issues thread to contribute to the discussion.
+Nothing is set in stone yet, the final spec will be decided after reasonable amount of feedback and discussion on the details. Please read through the document first, and then visit the [GitHub issues thread](https://github.com/interplanaria/bit/issues) to contribute to the discussion.
 </div>
 
 ---
