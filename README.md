@@ -248,9 +248,9 @@ Let's imagine a global routing table that looks something like this:
 
 | Protocol Name | Bitcom Address                     | API MAPPING                                                  |
 | ------------- | ---------------------------------- | ------------------------------------------------------------ |
-| B             | 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut | https://bico.media/${key}                                    |
-| B             | 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut | https://media.bitcoinfiles.org/${key}                        |
-| B             | 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut | https://api.bitpaste.app/file/${key}/raw                     |
+| B             | 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut | https://bico.media/{{key}}                                   |
+| B             | 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut | https://media.bitcoinfiles.org/{{key}}                       |
+| B             | 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut | https://api.bitpaste.app/file/{{key}}/raw                    |
 
 Here's how we want it to work:
 
@@ -312,22 +312,22 @@ Note that the EXACT `[path]` pattern must have been enabled by the protocol admi
 Below are some examples where service providers are adding routes from [B://](https://b.bitdb.network) protocol (`19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut`) to their service endpoints.
 
 ```
-OP_RETURN $ route add 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut /:tx https://bico.media/${tx}
+OP_RETURN $ route add 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut /:tx https://bico.media/{{tx}}
 ```
 
 ```
-OP_RETURN $ route add 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut /:tx https://api.bitpaste.app/${tx}/raw
+OP_RETURN $ route add 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut /:tx https://api.bitpaste.app/{{tx}}/raw
 ```
 
 ```
-OP_RETURN $ route add 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut /:tx https://media.bitcoinfiles.org/${tx}
+OP_RETURN $ route add 19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut /:tx https://media.bitcoinfiles.org/{{tx}}
 ```
 
 > NOTE 1: We're assuming here that each transaction is sent by the owner of each HTTP endpoint
 >
 > NOTE 2: The path uses a typical route matcher syntax, for example :id means it's a named variable mapping to id.
 > 
-> NOTE 3: The handler uses a template expression to instantiate the service URL using the variable from the matched route. For example, ${tx} gets instantiated with the :tx variable matched from the route
+> NOTE 3: The handler uses a template expression to instantiate the service URL using the variable from the matched route. For example, {{tx}} gets instantiated with the :tx variable matched from the route
 
 Here's a [Bitquery](https://docs.planaria.network/#/query) to query all the service providers plugged into B:// protocol (Bitcom address `19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut`):
 
@@ -348,8 +348,8 @@ Here's a [Bitquery](https://docs.planaria.network/#/query) to query all the serv
 You can also create routes with even more flexible patterns:
 
 ```
-OP_RETURN $ route add 1FnauZ9aUH2Bex6JzdcV4eNX7oLSSEbxtN /q/:tx https://test.net/query/${query}
-OP_RETURN $ route add 1FnauZ9aUH2Bex6JzdcV4eNX7oLSSEbxtN /info/:tx https://test.net/info/${tx}
+OP_RETURN $ route add 1FnauZ9aUH2Bex6JzdcV4eNX7oLSSEbxtN /q/:query https://test.net/query/{{query}}
+OP_RETURN $ route add 1FnauZ9aUH2Bex6JzdcV4eNX7oLSSEbxtN /info/:tx https://test.net/info/{{tx}}
 ```
 
 ## 3. Route Authentication
@@ -454,7 +454,7 @@ For example, let's say the above bitquery has returned 3 results for B:// protoc
       "s3": "add",
       "s4": "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
       "s5": "/:tx",
-      "s6": "https://bico.media/${tx}"
+      "s6": "https://bico.media/{{tx}}"
     }]
   }, {
     "in": [{
@@ -470,7 +470,7 @@ For example, let's say the above bitquery has returned 3 results for B:// protoc
       "s3": "add",
       "s4": "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
       "s5": "/:tx",
-      "s6": "https://api.bitpaste.app/${tx}/raw"
+      "s6": "https://api.bitpaste.app/{{tx}}/raw"
     }]
   }, {
     "in": [{
@@ -486,7 +486,7 @@ For example, let's say the above bitquery has returned 3 results for B:// protoc
       "s3": "add",
       "s4": "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
       "s5": "/:tx",
-      "s6": "https://media.bitcoinfiles.org/${tx}"
+      "s6": "https://media.bitcoinfiles.org/{{tx}}"
     }]
   }]
 }
@@ -512,6 +512,6 @@ A more human-readable namespaces can be built on top of this layer.
 ## Who is this for?
 
 - **Application protocol developers:** Application developers can create their own protocol AND create URI schemes for referencing various data objects produced from their protocol transactions.
-- **Service providers:** Service providers (Not to be confused with application developers) can implement the protocols and connect their service nods to the global router for discovery.
-- **Agents:** Agents can parse the blockchain with the protocol to get more information about all the protocols and the global namespace.
+- **Service providers:** Service providers (Not to be confused with application developers) are those who actually implement the application protocols to store and deliver a filtered version of Bitcoin. Service providers can connect their service nodes to the global router for discovery. An application developer may also decide to be a service provider, but this is not mandatory.
+- **Agents:** Agents like [Planaria](https://docs.planaria.network) can crawl and parse the blockchain utilizing the URI scheme to get more networked information about all the protocols and the global namespace.
 - **Browsers:** A browser can use the bit:// protocol to render the Bitcoin universe to end-users.
